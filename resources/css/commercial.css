@@ -1,0 +1,488 @@
+/* ── GRID ── */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 52px;
+}
+
+/* ── BASE CARD ── */
+.card {
+    position: relative;
+    border-radius: 16px;
+    padding: 32px 26px 30px;
+    overflow: hidden;
+    cursor: default;
+    isolation: isolate;
+    opacity: 0;
+}
+
+/* Each card enters from a different direction */
+.card:nth-child(1) {
+    animation: fromLeft 0.75s 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.card:nth-child(2) {
+    animation: fromTop 0.75s 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.card:nth-child(3) {
+    animation: fromBot 0.75s 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.card:nth-child(4) {
+    animation: fromRight 0.75s 0.72s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-56px) rotate(-4deg);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes fromRight {
+    from {
+        opacity: 0;
+        transform: translateX(56px) rotate(4deg);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes fromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-44px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes fromBot {
+    from {
+        opacity: 0;
+        transform: translateY(44px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Colour themes */
+.card:nth-child(odd) {
+    background: linear-gradient(145deg, #2c2c2c 0%, #3a3a3a 60%, #1e1e1e 100%);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+.card:nth-child(even) {
+    background: linear-gradient(145deg, #f7941d 0%, #e8820a 55%, #c96d00 100%);
+    box-shadow: 0 4px 24px rgba(247, 148, 29, 0.28);
+}
+
+/* ═══════════════════════════════════════════
+     CARD 1 — 3D Perspective Tilt + moving spotlight
+  ═══════════════════════════════════════════ */
+.card-1 {
+    transform-style: preserve-3d;
+    transition: box-shadow 0.4s;
+    will-change: transform;
+}
+.card-1 .spotlight {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(
+        circle at var(--mx, 50%) var(--my, 50%),
+        rgba(247, 148, 29, 0.25) 0%,
+        transparent 55%
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.card-1:hover .spotlight {
+    opacity: 1;
+}
+.card-1:hover {
+    box-shadow:
+        0 28px 64px rgba(0, 0, 0, 0.4),
+        0 6px 18px rgba(0, 0, 0, 0.14);
+}
+
+/* ═══════════════════════════════════════════
+     CARD 2 — Concentric ripple rings on enter
+  ═══════════════════════════════════════════ */
+.card-2 {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+.card-2:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 24px 56px rgba(247, 148, 29, 0.5);
+}
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+}
+.card-2.firing .ring:nth-child(1) {
+    animation: ringPop 0.85s 0s ease-out forwards;
+}
+.card-2.firing .ring:nth-child(2) {
+    animation: ringPop 0.85s 0.18s ease-out forwards;
+}
+.card-2.firing .ring:nth-child(3) {
+    animation: ringPop 0.85s 0.36s ease-out forwards;
+}
+@keyframes ringPop {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(9);
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════
+     CARD 3 — Glitch shake + chromatic scanlines
+  ═══════════════════════════════════════════ */
+.card-3 {
+    transition: box-shadow 0.3s;
+}
+.card-3:hover {
+    box-shadow: 0 24px 56px rgba(0, 0, 0, 0.42);
+}
+
+/* scanline texture */
+.card-3 .scanlines {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(247, 148, 29, 0.04) 3px,
+        rgba(247, 148, 29, 0.04) 4px
+    );
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+.card-3:hover .scanlines {
+    opacity: 1;
+}
+
+/* chromatic ghost clone */
+.card-3 .chroma {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    pointer-events: none;
+    background: inherit;
+    opacity: 0;
+    mix-blend-mode: screen;
+}
+
+.card-3.glitching {
+    animation: glitchShake 0.45s ease;
+}
+.card-3.glitching .chroma {
+    animation: chromaDrift 0.45s steps(2) forwards;
+}
+
+@keyframes glitchShake {
+    0% {
+        transform: translate(0, 0) skewX(0);
+    }
+    10% {
+        transform: translate(-4px, 2px) skewX(-3deg);
+    }
+    20% {
+        transform: translate(5px, -2px) skewX(3deg);
+    }
+    30% {
+        transform: translate(-3px, 3px) skewX(-2deg);
+    }
+    40% {
+        transform: translate(4px, -1px) skewX(2deg);
+    }
+    50% {
+        transform: translate(-2px, 2px) skewX(-1deg);
+    }
+    65% {
+        transform: translate(2px, 0) skewX(1deg);
+    }
+    80% {
+        transform: translate(-1px, 1px) skewX(0);
+    }
+    100% {
+        transform: none;
+    }
+}
+@keyframes chromaDrift {
+    0%,
+    100% {
+        opacity: 0;
+        transform: none;
+    }
+    25% {
+        opacity: 0.4;
+        transform: translate(5px, 0);
+        filter: hue-rotate(80deg) saturate(3);
+    }
+    55% {
+        opacity: 0.4;
+        transform: translate(-5px, 0);
+        filter: hue-rotate(-80deg) saturate(3);
+    }
+    75% {
+        opacity: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════
+     CARD 4 — Magnetic cursor follow + particle burst
+  ═══════════════════════════════════════════ */
+.card-4 {
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.3s;
+    will-change: transform;
+}
+.card-4:hover {
+    box-shadow: 0 24px 56px rgba(247, 148, 29, 0.5);
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    width: var(--ps, 5px);
+    height: var(--ps, 5px);
+    background: rgba(255, 255, 255, 0.85);
+    animation: pflyOut 0.75s ease-out forwards;
+}
+@keyframes pflyOut {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--px, 0px), var(--py, 0px)) scale(0);
+        opacity: 0;
+    }
+}
+
+/* ── Shared card internals ── */
+.card-num {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    transition: all 0.35s;
+}
+.card:nth-child(odd) .card-num {
+    color: rgba(255, 255, 255, 0.2);
+}
+.card:nth-child(even) .card-num {
+    color: rgba(255, 255, 255, 0.35);
+}
+.card:hover .card-num {
+    transform: scale(1.2) translateY(-2px);
+}
+.card-1:hover .card-num,
+.card-3:hover .card-num {
+    color: var(--orange);
+}
+.card-2:hover .card-num,
+.card-4:hover .card-num {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
+.card:nth-child(odd) .card-icon {
+    background: rgba(247, 148, 29, 0.18);
+}
+.card:nth-child(even) .card-icon {
+    background: rgba(255, 255, 255, 0.18);
+}
+.card-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+/* Distinct icon micro-animations per card */
+.card-1:hover .card-icon {
+    animation: iSpin 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card-2:hover .card-icon {
+    animation: iBounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card-3.glitching .card-icon {
+    animation: iGlitch 0.4s steps(3);
+}
+.card-4:hover .card-icon {
+    animation: iPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes iSpin {
+    0% {
+        transform: rotate(0) scale(1);
+    }
+    50% {
+        transform: rotate(-18deg) scale(1.18);
+    }
+    100% {
+        transform: rotate(0) scale(1);
+    }
+}
+@keyframes iBounce {
+    0% {
+        transform: translateY(0);
+    }
+    35% {
+        transform: translateY(-14px);
+    }
+    65% {
+        transform: translateY(5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+@keyframes iGlitch {
+    0%,
+    100% {
+        transform: none;
+    }
+    33% {
+        transform: translate(5px, -3px) skewX(-6deg);
+    }
+    66% {
+        transform: translate(-5px, 3px) skewX(6deg);
+    }
+}
+@keyframes iPop {
+    0% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.45);
+    }
+    75% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.card-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 18px;
+    transition: letter-spacing 0.3s;
+    position: relative;
+    z-index: 2;
+}
+.card:hover .card-title {
+    letter-spacing: 0.015em;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    position: relative;
+    z-index: 2;
+}
+.tag {
+    font-size: 9.5px;
+    font-weight: 400;
+    letter-spacing: 0.07em;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 4px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.card:nth-child(odd) .tag:hover {
+    background: rgba(247, 148, 29, 0.25);
+    border-color: rgba(247, 148, 29, 0.5);
+    color: #f7941d;
+}
+.card:nth-child(even) .tag:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+.tag.more {
+    font-weight: 500;
+    cursor: pointer;
+}
+.card:nth-child(odd) .tag.more {
+    background: rgba(247, 148, 29, 0.2);
+    border-color: rgba(247, 148, 29, 0.5);
+    color: #f7941d;
+}
+.card:nth-child(even) .tag.more {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #fff;
+}
+
+@keyframes riseIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 560px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .wrapper {
+        padding: 40px 20px 64px;
+    }
+}
