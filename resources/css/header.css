@@ -439,6 +439,9 @@
 /* SMALL MOBILE (≤ 480px) */
 /* ========================= */
 @media (max-width: 480px) {
+    .top-bar-left {
+        display: none;
+    }
     .logo img {
         height: 36px;
     }

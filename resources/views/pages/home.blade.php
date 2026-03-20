@@ -57,7 +57,7 @@
                 </div>
 
 
-                <h2 class="sa-title">
+                <h2 class="sa-title text-lg-start">
                     Clear Space Clear Mind <span class="accent">JunkDrop</span>
                 </h2>
                 <p class="sa-subtitle">
@@ -90,7 +90,7 @@
                 <div class="stat-number">98%</div>
                 <div class="stat-label">On-Time Arrivals</div>
             </div>
-            <div>
+            <div class="full-text">
                 <p> We're fully licensed to Canadian rules, ready for same-day calls in big cities, and always up front with prices based on how much there is—no tricks or extras. Whether clearing a home in Toronto or a business lot in Vancouver, we make waste management service easy. Give us a call now for smart, green junk pickup that works around your day.
                 </p>
             </div>
@@ -112,7 +112,7 @@
 
 
 
-<x-service-section />
+<x-service-section :services="$services" />
 
 
 <!-- WHY CHOOSE US -->
@@ -126,7 +126,7 @@
 
 
 <section class=" section-pad sa-section">
-    <div class="sa-inner">
+    <div class="content-container sa-inner">
 
         <!-- ── HEADER ── -->
         <div class="sa-header">
@@ -145,125 +145,137 @@
         </div>
 
         <!-- ── CITY GRID ── -->
-        <div class="sa-grid">
+        <div class="city-grid">
 
-            <!-- TORONTO -->
+            @foreach($suburbs as $suburb)
             <div class="city-card">
-                <img src="{{ asset('assets/images/image-1.webp') }}" alt="Toronto" loading="lazy">
+
+             <img
+    src="{{ asset('storage/' . $suburb->image) }}"
+    alt="{{ $suburb->description ?? $suburb->suburbname }}"
+    loading="lazy"
+>
+
                 <div class="card-overlay"></div>
                 <div class="card-accent-line"></div>
+
                 <div class="card-arrow">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="2" y1="12" x2="12" y2="2" />
                         <polyline points="5,2 12,2 12,9" />
                     </svg>
                 </div>
-                <div class="card-info">
-                    <div class="city-name">Toronto</div>
-                    <div class="city-tag">Primary</div>
-                </div>
-            </div>
 
-            <!-- MARKHAM -->
-            <div class="city-card">
-                <img src="{{ asset('assets/images/image-2.webp') }}" alt="Toronto" loading="lazy">
-                <div class="card-overlay"></div>
-                <div class="card-accent-line"></div>
-                <div class="card-arrow">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="2" y1="12" x2="12" y2="2" />
-                        <polyline points="5,2 12,2 12,9" />
-                    </svg>
-                </div>
                 <div class="card-info">
-                    <div class="city-name">Markham</div>
-                    <div class="city-tag">Primary</div>
+                    <div class="city-name">{{ $suburb->suburbname }}</div>
+                    <div class="city-tag">{{ $suburb->type ?? 'City' }}</div>
                 </div>
-            </div>
 
-            <!-- BRAMPTON -->
-            <div class="city-card">
-                <img src="{{ asset('assets/images/image-3.webp') }}" alt="Toronto" loading="lazy">
-                <div class="card-overlay"></div>
-                <div class="card-accent-line"></div>
-                <div class="card-arrow">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="2" y1="12" x2="12" y2="2" />
-                        <polyline points="5,2 12,2 12,9" />
-                    </svg>
-                </div>
-                <div class="card-info">
-                    <div class="city-name">Brampton</div>
-                    <div class="city-tag">Primary</div>
-                </div>
             </div>
-
-            <!-- VAUGHAN -->
-            <div class="city-card">
-                <img src="{{ asset('assets/images/image-5.webp') }}" alt="Toronto" loading="lazy">
-                <div class="card-overlay"></div>
-                <div class="card-accent-line"></div>
-                <div class="card-arrow">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="2" y1="12" x2="12" y2="2" />
-                        <polyline points="5,2 12,2 12,9" />
-                    </svg>
-                </div>
-                <div class="card-info">
-                    <div class="city-name">Vaughan</div>
-                    <div class="city-tag">Active</div>
-                </div>
-            </div>
-
-            <!-- OSHAWA -->
-            <div class="city-card">
-                <img src="{{ asset('assets/images/image-6.webp') }}" alt="Toronto" loading="lazy">
-                <div class="card-overlay"></div>
-                <div class="card-accent-line"></div>
-                <div class="card-arrow">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="2" y1="12" x2="12" y2="2" />
-                        <polyline points="5,2 12,2 12,9" />
-                    </svg>
-                </div>
-                <div class="card-info">
-                    <div class="city-name">Oshawa</div>
-                    <div class="city-tag">Active</div>
-                </div>
-            </div>
-
-            <!-- BARRIE -->
-            <div class="city-card">
-                <img src="{{ asset('assets/images/image-4.webp') }}" alt="Toronto" loading="lazy">
-                <div class="card-overlay"></div>
-                <div class="card-accent-line"></div>
-                <div class="card-arrow">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="2" y1="12" x2="12" y2="2" />
-                        <polyline points="5,2 12,2 12,9" />
-                    </svg>
-                </div>
-                <div class="card-info">
-                    <div class="city-name">Barrie</div>
-                    <div class="city-tag">Active</div>
-                </div>
-            </div>
+            @endforeach
 
         </div>
-        <!-- end grid -->
 
-        <!-- FOOTER -->
-        <div class="sa-footer">
-            <div class="sa-divider"><span>And more locations</span></div>
-            <p>Don't see your city? We're always expanding our coverage across Ontario.</p>
-            <button class="btn-view-more">
-                <span>View All Service Areas</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="2" y1="8" x2="14" y2="8" />
-                    <polyline points="9,3 14,8 9,13" />
+        <!-- MARKHAM -->
+        <!-- <div class="city-card">
+            <img src="{{ asset('assets/images/image-2.webp') }}" alt="Toronto" loading="lazy">
+            <div class="card-overlay"></div>
+            <div class="card-accent-line"></div>
+            <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="2" y1="12" x2="12" y2="2" />
+                    <polyline points="5,2 12,2 12,9" />
                 </svg>
-            </button>
-        </div>
+            </div>
+            <div class="card-info">
+                <div class="city-name">Markham</div>
+                <div class="city-tag">Primary</div>
+            </div>
+        </div> -->
+
+        <!-- BRAMPTON -->
+        <!-- <div class="city-card">
+            <img src="{{ asset('assets/images/image-3.webp') }}" alt="Toronto" loading="lazy">
+            <div class="card-overlay"></div>
+            <div class="card-accent-line"></div>
+            <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="2" y1="12" x2="12" y2="2" />
+                    <polyline points="5,2 12,2 12,9" />
+                </svg>
+            </div>
+            <div class="card-info">
+                <div class="city-name">Brampton</div>
+                <div class="city-tag">Primary</div>
+            </div>
+        </div> -->
+
+        <!-- VAUGHAN -->
+        <!-- <div class="city-card">
+            <img src="{{ asset('assets/images/image-5.webp') }}" alt="Toronto" loading="lazy">
+            <div class="card-overlay"></div>
+            <div class="card-accent-line"></div>
+            <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="2" y1="12" x2="12" y2="2" />
+                    <polyline points="5,2 12,2 12,9" />
+                </svg>
+            </div>
+            <div class="card-info">
+                <div class="city-name">Vaughan</div>
+                <div class="city-tag">Active</div>
+            </div>
+        </div> -->
+
+        <!-- OSHAWA -->
+        <!-- <div class="city-card">
+            <img src="{{ asset('assets/images/image-6.webp') }}" alt="Toronto" loading="lazy">
+            <div class="card-overlay"></div>
+            <div class="card-accent-line"></div>
+            <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="2" y1="12" x2="12" y2="2" />
+                    <polyline points="5,2 12,2 12,9" />
+                </svg>
+            </div>
+            <div class="card-info">
+                <div class="city-name">Oshawa</div>
+                <div class="city-tag">Active</div>
+            </div>
+        </div> -->
+
+        <!-- BARRIE -->
+        <!-- <div class="city-card">
+            <img src="{{ asset('assets/images/image-4.webp') }}" alt="Toronto" loading="lazy">
+            <div class="card-overlay"></div>
+            <div class="card-accent-line"></div>
+            <div class="card-arrow">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="2" y1="12" x2="12" y2="2" />
+                    <polyline points="5,2 12,2 12,9" />
+                </svg>
+            </div>
+            <div class="card-info">
+                <div class="city-name">Barrie</div>
+                <div class="city-tag">Active</div>
+            </div>
+        </div> -->
+
+    </div>
+    <!-- end grid -->
+
+    <!-- FOOTER -->
+    <div class="sa-footer">
+        <div class="sa-divider"><span>And more locations</span></div>
+        <p>Don't see your city? We're always expanding our coverage across Ontario.</p>
+        <button class="btn-view-more">
+            <span>View All Service Areas</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="2" y1="8" x2="14" y2="8" />
+                <polyline points="9,3 14,8 9,13" />
+            </svg>
+        </button>
+    </div>
 
     </div>
 
